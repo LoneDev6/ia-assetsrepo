@@ -23,48 +23,33 @@ const useStyles = (theme) => ({
     }
 });
 
-const genPlaceholderAsset = () => {
-    let votes = getRandomInt(0, 50)
-    let id = getRandomInt(10, 99999)
-    return {
-        id: id,
-        name: `Test Asset ${id}`,
-        category: "Food",
-        description: "This is a test asset",
-        author: "DiscordTag#7777",
-        image: "https://source.unsplash.com/random/",
-        votes: votes
-    }
-};
-
-const genPlaceholderAssets = (count) => {
-    let arr = [];
-    for(let i=0; i < count ; i++)
-    {
-        arr.push(
-            genPlaceholderAsset()
-        )
-    }
-    return arr
-}
-
 class AssetsGrid extends React.Component {
+    page = 0;
     state = {
-        items: genPlaceholderAssets(21)
+        items: []
     };
 
     fetchMoreData = () => {
-        // a fake async api call like which sends
-        // 20 more records in 1.5 secs
-        setTimeout(() => {
-            this.setState({
-                items: this.state.items.concat(genPlaceholderAssets(21))
+
+        fetch(`http://localhost:29020/api/assets/${this.page}`)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    items: this.state.items.concat(responseJson)
+                });
+            })
+            .catch((error) => {
+                console.error(error);
             });
-        }, 1500);
+        this.page++;
     };
+
 
     render() {
         const classes = this.props.classes;
+
+        if(this.page === 0)
+            this.fetchMoreData(); //TODO: errors catching and stuff
 
         return (
             <React.Fragment>
@@ -74,7 +59,7 @@ class AssetsGrid extends React.Component {
                             dataLength={this.state.items.length}
                             next={this.fetchMoreData}
                             hasMore={true}
-                            loader={<LinearProgress/>}
+                            // loader={<LinearProgress/>}
                             className={classes.infiniteScroll}
                         >
                             <Grid container spacing={4}>

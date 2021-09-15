@@ -20,7 +20,9 @@ const useStyles = () => ({
         }
     },
     cardMedia: {
-        paddingTop: '56.25%', // 16:9
+        // paddingTop: '56.25%', // 16:9
+        paddingTop: '100%',
+        "background-size": "auto !important"
     },
     cardContent: {
         flexGrow: 1,
@@ -38,7 +40,7 @@ class AssetGridCard extends React.Component {
                     <Card className={classes.card} onClick={() => this.openCardDetails(asset.id)}>
                         <CardMedia
                             className={classes.cardMedia}
-                            image={asset.image}
+                            image={asset.img}
                             title={asset.name}
                         />
                         <CardContent className={classes.cardContent}>
