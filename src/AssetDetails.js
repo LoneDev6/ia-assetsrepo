@@ -64,12 +64,10 @@ class AssetDetails extends React.Component {
     }
 
     componentDidMount() {
-        console.log("componentDidMount")
-        fetch(`http://localhost:29020/api/asset/info/${this.props.asset_id}`)
+        fetch(`${process.env.REACT_APP_BACKEND}/api/asset/info/${this.props.asset_id}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({ asset: responseJson, loadedData: true})
-                console.warn(responseJson);
             })
             .catch((error) => {
                 console.error("componentDidMount error:");
@@ -99,13 +97,11 @@ class AssetDetails extends React.Component {
             automaticLayout: true
         };
 
-        console.log(this.state.asset.name)
-
         return (
             <React.Fragment>
                 <div className={classes.root}>
                     <Grid direction='row' container spacing={1}>
-                        <Grid item xs={6}>
+                        <Grid xs={6}>
                             <Paper className={classes.paper}>
                                 <Typography component="h5" variant="h5" align="center" gutterBottom>
                                     {this.state.asset.name}
@@ -116,16 +112,16 @@ class AssetDetails extends React.Component {
                                 <Container maxWidth="sm">
                                     <div className={classes.heroButtons}>
                                         <Grid container spacing={2} justifyContent="center">
-                                            <Grid item>
-                                                <Button variant="contained" color="primary" href={`http://localhost:29020/api/asset/download/${this.state.asset.id}`}>
+                                            <Grid>
+                                                <Button variant="contained" color="primary" onClick={() => { window.open(`${process.env.REACT_APP_BACKEND}/api/asset/download/${this.state.asset.id}`) }}>
                                                     Download
                                                 </Button>
                                             </Grid>
-                                            {/*<Grid item>*/}
+                                            {/*<Grid>*/}
                                             {/*    <TextField id="namespace" label="Namespace" defaultValue="example" />*/}
                                             {/*</Grid>*/}
 
-                                            {/*<Grid item>*/}
+                                            {/*<Grid>*/}
                                             {/*    <Button variant="outlined" color="secondary">*/}
                                             {/*        Vote*/}
                                             {/*    </Button>*/}
@@ -141,7 +137,7 @@ class AssetDetails extends React.Component {
                                 </Container>
                             </Paper>
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid xs={5}>
                             <Paper className={classes.monacoContainer}>
                                 <Typography component="h5" variant="h5" align="center" gutterBottom>
                                     Json Model
@@ -159,7 +155,7 @@ class AssetDetails extends React.Component {
                         </Grid>
                     </Grid>
                     <Grid direction='row' container spacing={1}>
-                        <Grid item xs={6}>
+                        <Grid xs={6}>
                             <Paper className={classes.paper}>
                                 <Typography align="left" paragraph>
                                     Author: {this.state.asset.author}
@@ -175,7 +171,7 @@ class AssetDetails extends React.Component {
                                 </Typography>
                             </Paper>
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid xs={5}>
                             <Paper className={classes.monacoContainer}>
                                 <Typography component="h5" variant="h5" align="center" gutterBottom>
                                     IA YAML

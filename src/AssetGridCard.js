@@ -32,10 +32,10 @@ const useStyles = () => ({
 class AssetGridCard extends React.Component {
     render() {
         const classes = this.props.classes;
-        let {index, asset} = this.props;
+        let {asset} = this.props;
 
         return (
-            <Grid item key={index} xs={12} sm={6} md={4}>
+            <Grid item key={asset.id} xs={12} sm={6} md={4}>
                 <FadeIn>
                     <Card className={classes.card} onClick={() => this.openCardDetails(asset.id)}>
                         <CardMedia
@@ -50,9 +50,9 @@ class AssetGridCard extends React.Component {
                             <GrayText gutterBottom variant="subtitle2">
                                 {asset.category}
                             </GrayText>
-                            <Typography variant={"body2"}>
-                                {asset.description}
-                            </Typography>
+                            {/*<Typography variant={"body2"}>*/}
+                            {/*    {asset.description}*/}
+                            {/*</Typography>*/}
                         </CardContent>
                     </Card>
                 </FadeIn>

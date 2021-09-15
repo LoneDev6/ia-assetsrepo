@@ -31,7 +31,7 @@ class AssetsGrid extends React.Component {
 
     fetchMoreData = () => {
 
-        fetch(`http://localhost:29020/api/assets/${this.page}`)
+        fetch(`${process.env.REACT_APP_BACKEND}/api/assets/${this.page}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({

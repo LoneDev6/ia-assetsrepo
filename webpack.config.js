@@ -3,8 +3,8 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin')
 
 const path = require('path');
-const APP_DIR = path.resolve(__dirname, './src');
-const MONACO_DIR = path.resolve(__dirname, './node_modules/monaco-editor');
+const webpack = require("webpack");
+const dotenv = require('dotenv')
 
 module.exports = ({mode} = {mode: "production"}) => {
     console.log(`mode is: ${mode}`);
@@ -52,15 +52,30 @@ module.exports = ({mode} = {mode: "production"}) => {
             new MonacoWebpackPlugin({
                 languages: ["json", "yaml"],
             }),
-            // new CopyPlugin({
-            //     patterns: [
-            //         //move all images from src/img/ to /img/ folder in the build.
-            //         {
-            //             from: `src/img/`,
-            //             to: `img/`
-            //         }
-            //     ]
-            // }),
+            new CopyPlugin({
+                patterns: [
+                    // move all images from public/img/ to /img/ folder in the build.
+                    {
+                        from: `public/img/`,
+                        to: `img/`
+                    },
+                    {
+                        from: `public/favicon.png`,
+                        to: `favicon.png`
+                    },
+                    {
+                        from: `public/robots.txt`,
+                        to: `robots.txt`
+                    },
+                    {
+                        from: `src/manifest.json`,
+                        to: `manifest.json`
+                    }
+                ]
+            }),
+            new webpack.DefinePlugin({
+                'process.env': JSON.stringify(dotenv.config().parsed) // it will automatically pick up key values from .env file
+            })
         ]
     }
 };

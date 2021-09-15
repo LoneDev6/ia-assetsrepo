@@ -105,27 +105,31 @@ function App(props) {
     };
 
     return (
-        <ThemeProvider className="App" theme={theme}>
+        <ThemeProvider theme={theme}>
             <CssBaseline/>
             <AppBar position="relative">
                 <Toolbar>
                     <img src="/img/icon.png" alt="logo" className={classes.icon} onClick={() => { returnToHome() }}/>
                     <Typography variant="h6" color="inherit" noWrap className={classes.appbarTitle} onClick={() => { returnToHome() }}>
                         Assets Repository
+                        <Typography color="inherit" noWrap onClick={() => { returnToHome() }}>
+                            (alpha)
+                        </Typography>
                     </Typography>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon/>
-                        </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{'aria-label': 'search'}}
-                        />
-                    </div>
+
+                    {/*<div className={classes.search}>*/}
+                    {/*    <div className={classes.searchIcon}>*/}
+                    {/*        <SearchIcon/>*/}
+                    {/*    </div>*/}
+                    {/*    <InputBase*/}
+                    {/*        placeholder="Search…"*/}
+                    {/*        classes={{*/}
+                    {/*            root: classes.inputRoot,*/}
+                    {/*            input: classes.inputInput,*/}
+                    {/*        }}*/}
+                    {/*        inputProps={{'aria-label': 'search'}}*/}
+                    {/*    />*/}
+                    {/*</div>*/}
                 </Toolbar>
             </AppBar>
 
