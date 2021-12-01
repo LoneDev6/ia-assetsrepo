@@ -34,7 +34,7 @@ class AssetsGrid extends React.Component
 
     fetchMoreData = (incrementPage = true) => {
 
-        fetch(`/uploads/assets.json`)
+        fetch(`${process.env.DATA_REPO_URL}assets.json`)
             .then((response) => response.json())
             .then(async (json) => {
                 let assetsNames = json.list;
@@ -47,10 +47,10 @@ class AssetsGrid extends React.Component
                 await this.asyncForEach(assetsNames, async (assetName) => {
                     try
                     {
-                        await fetch(`/uploads/${assetName}/info.json`)
+                        await fetch(`${process.env.DATA_REPO_URL}${assetName}/info.json`)
                             .then((response) => response.json())
                             .then((assetData) => {
-                                assetData.img = `/uploads/${assetData.id}/preview/img.png`;
+                                assetData.img = `${process.env.DATA_REPO_URL}${assetData.id}/preview/img.png`;
                                 assetsArray.push(assetData)
 
                                 console.log(assetData)

@@ -74,13 +74,13 @@ class AssetDetails extends React.Component
 
     componentDidMount()
     {
-        fetch(`/uploads/${this.props.asset_id}/info.json`)
+        fetch(`${process.env.DATA_REPO_URL}${this.props.asset_id}/info.json`)
             .then(res => res.json())
             .then((json) => {
                 this.setState(
                     {
                         asset: json,
-                        assetImageUrl: "/uploads/" + this.props.asset_id + "/preview/img.png",
+                        assetImageUrl: `${process.env.DATA_REPO_URL}${this.props.asset_id}/preview/img.png`,
                         loadedData: true
                     }
                 )
@@ -90,7 +90,7 @@ class AssetDetails extends React.Component
                 console.error(error);
             });
 
-        fetch(`/uploads/${this.props.asset_id}/preview/model.json`)
+        fetch(`${process.env.DATA_REPO_URL}${this.props.asset_id}/preview/model.json`)
             .then(res => res.text())
             .then((body) => {
                 console.log(body)
@@ -103,7 +103,7 @@ class AssetDetails extends React.Component
                 console.error(error);
             });
 
-        fetch(`/uploads/${this.props.asset_id}/preview/ia.yml`)
+        fetch(`${process.env.DATA_REPO_URL}${this.props.asset_id}/preview/ia.yml`)
             .then(res => res.text())
             .then((body) => {
                 //TODO: check if the model exists or if the item has no model.
@@ -158,7 +158,7 @@ class AssetDetails extends React.Component
                                         <Grid container spacing={2} justifyContent="center">
                                             <Grid>
                                                 <Button variant="contained" color="primary" onClick={() => {
-                                                    window.open(`/uploads/${this.state.asset.id}/data.zip`) //TODO: change the downloaded file name
+                                                    window.open(`${process.env.DATA_REPO_URL}${this.state.asset.id}/data.zip`) //TODO: change the downloaded file name
                                                 }}>
                                                     Download
                                                 </Button>
