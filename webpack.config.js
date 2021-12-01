@@ -70,6 +70,10 @@ module.exports = ({mode} = {mode: "production"}) => {
                     {
                         from: `src/manifest.json`,
                         to: `manifest.json`
+                    },
+                    {
+                        from: `public/404.html`,
+                        to: `404.html`
                     }
                 ]
             }),
