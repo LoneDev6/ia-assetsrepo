@@ -53,7 +53,6 @@ class AssetsGrid extends React.Component
                                 assetData.img = `${process.env.DATA_REPO_URL}${assetData.id}/preview/img.png`;
                                 assetsArray.push(assetData)
 
-                                console.log(assetData)
                                 console.log("fetch")
                             })
                     } catch (err) //not only 404... TODO: handle other type of errors

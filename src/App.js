@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 
 import {navigate, Router} from "@reach/router";
 import AssetDetails from "./AssetDetails";
+import {HashRouter} from "react-router-dom";
 
 const useStyles = (theme) => ({
     icon: {
@@ -138,10 +139,10 @@ function App(props)
                 </Toolbar>
             </AppBar>
 
-            <Router>
+            <HashRouter>
                 <AssetsGrid path="/"/>
                 <AssetDetails path="/asset/:asset_id"/>
-            </Router>
+            </HashRouter>
 
         </ThemeProvider>
     )

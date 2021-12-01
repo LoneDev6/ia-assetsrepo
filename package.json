@@ -2,7 +2,7 @@
   "name": "assetsrepo",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://lonedev6.github.io/ia-assetsrepo",
+  "homepage": "https://assets.devs.beer",
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
@@ -31,6 +31,7 @@
     "webpack-dev-server": "webpack-dev-server",
     "dev": "npm run webpack-dev-server -- --env mode=development",
     "prod": "npm run webpack -- --env mode=production",
+    "predeploy": "npm run prod",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {

@@ -93,7 +93,6 @@ class AssetDetails extends React.Component
         fetch(`${process.env.DATA_REPO_URL}${this.props.asset_id}/preview/model.json`)
             .then(res => res.text())
             .then((body) => {
-                console.log(body)
                 //TODO: check if the model exists or if the item has no model.
                 this.monacoJsonRef.current.editor.setValue(body)
 
