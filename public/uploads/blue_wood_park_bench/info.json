@@ -1,0 +1,10 @@
+{
+  "id": "blue_wood_park_bench",
+  "name": "Blue Wood Park Bench",
+  "category": "Furniture",
+  "description": "An example furniture with sit behaviour",
+  "author": "LoneDev#7444",
+  "publish_date": "2021-09-15",
+  "mc_version": "Minecraft 1.13+",
+  "has_custom_texture": "no"
+}

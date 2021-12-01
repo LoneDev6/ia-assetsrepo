@@ -1,15 +1,15 @@
 import * as React from 'react';
-import {Suspense} from 'react';
-import Typography from '@mui/material/Typography';
-import Copyright from "./Copyright";
-import {withStyles} from "@material-ui/core/styles";
-import GrayText from "./StyleUtils";
 import MonacoEditor from 'react-monaco-editor';
-import {Card} from "@mui/material";
-import {Button, CardContent, CircularProgress, Paper, TextField} from "@material-ui/core";
+
+import {Button, CircularProgress, Paper} from "@material-ui/core";
+import {withStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@mui/material/Typography';
+
+import Copyright from "./Copyright";
+import GrayText from "./StyleUtils";
 
 const useStyles = (theme) => ({
 
@@ -58,28 +58,72 @@ const useStyles = (theme) => ({
     }
 });
 
-class AssetDetails extends React.Component {
+class AssetDetails extends React.Component
+{
     state = {
         loadedData: false
     }
 
-    componentDidMount() {
-        fetch(`${process.env.REACT_APP_BACKEND}/api/asset/info/${this.props.asset_id}`)
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState({ asset: responseJson, loadedData: true})
+    constructor(props)
+    {
+        super(props);
+
+        this.monacoYamlRef = React.createRef();
+        this.monacoJsonRef = React.createRef();
+    }
+
+    componentDidMount()
+    {
+        fetch(`/uploads/${this.props.asset_id}/info.json`)
+            .then(res => res.json())
+            .then((json) => {
+                this.setState(
+                    {
+                        asset: json,
+                        assetImageUrl: "/uploads/" + this.props.asset_id + "/preview/img.png",
+                        loadedData: true
+                    }
+                )
             })
             .catch((error) => {
                 console.error("componentDidMount error:");
                 console.error(error);
             });
+
+        fetch(`/uploads/${this.props.asset_id}/preview/model.json`)
+            .then(res => res.text())
+            .then((body) => {
+                console.log(body)
+                //TODO: check if the model exists or if the item has no model.
+                this.monacoJsonRef.current.editor.setValue(body)
+
+            })
+            .catch((error) => {
+                console.error("Error loading JSON data.");
+                console.error(error);
+            });
+
+        fetch(`/uploads/${this.props.asset_id}/preview/ia.yml`)
+            .then(res => res.text())
+            .then((body) => {
+                //TODO: check if the model exists or if the item has no model.
+                this.monacoYamlRef.current.editor.setValue(body)
+
+            })
+            .catch((error) => {
+                console.error("Error loading yml data.");
+                console.error(error);
+            });
     }
 
-    render() {
-        if(!this.state.loadedData)
+    render()
+    {
+        if (!this.state.loadedData)
+        {
             return (
-                <CircularProgress />
+                <CircularProgress/>
             );
+        }
 
         const {classes} = this.props;
 
@@ -113,7 +157,9 @@ class AssetDetails extends React.Component {
                                     <div className={classes.heroButtons}>
                                         <Grid container spacing={2} justifyContent="center">
                                             <Grid>
-                                                <Button variant="contained" color="primary" onClick={() => { window.open(`${process.env.REACT_APP_BACKEND}/api/asset/download/${this.state.asset.id}`) }}>
+                                                <Button variant="contained" color="primary" onClick={() => {
+                                                    window.open(`/uploads/${this.state.asset.id}/data.zip`) //TODO: change the downloaded file name
+                                                }}>
                                                     Download
                                                 </Button>
                                             </Grid>
@@ -130,7 +176,7 @@ class AssetDetails extends React.Component {
                                         <br/>
                                         <CardMedia
                                             className={classes.image}
-                                            image={this.state.asset.img}
+                                            image={this.state.assetImageUrl}
                                             title=""
                                         />
                                     </div>
@@ -140,13 +186,14 @@ class AssetDetails extends React.Component {
                         <Grid xs={5}>
                             <Paper className={classes.monacoContainer}>
                                 <Typography component="h5" variant="h5" align="center" gutterBottom>
-                                    Json Model
+                                    MC Json Model
                                 </Typography>
                                 <MonacoEditor
+                                    ref={this.monacoJsonRef}
                                     height="350"
                                     language="javascript"
                                     theme="vs-dark"
-                                    value={this.state.asset.json}
+                                    value={this.state.asset.json} //TODO: update this json with another ajax call
                                     options={options}
                                     onChange={() => this.onChange}
                                     editorDidMount={this.editorDidMount}
@@ -174,13 +221,14 @@ class AssetDetails extends React.Component {
                         <Grid xs={5}>
                             <Paper className={classes.monacoContainer}>
                                 <Typography component="h5" variant="h5" align="center" gutterBottom>
-                                    IA YAML
+                                    ItemsAdder config file
                                 </Typography>
                                 <MonacoEditor
+                                    ref={this.monacoYamlRef}
                                     height="512"
                                     language="yaml"
                                     theme="vs-dark"
-                                    value={this.state.asset.yml}
+                                    value={this.state.asset.yml} //TODO: update this yml with another ajax call
                                     options={options}
                                     onChange={() => this.onChange}
                                     editorDidMount={this.editorDidMount}
@@ -199,7 +247,8 @@ class AssetDetails extends React.Component {
         );
     }
 
-    editorDidMount() {
+    editorDidMount()
+    {
         // global.monaco.editor.remeasureFonts()
     }
 }

@@ -24,4 +24,3 @@ yarn-error.log*
 /package-lock.json
 .idea/discord.xml
 .idea/vcs.xml
-.idea/discord.xml

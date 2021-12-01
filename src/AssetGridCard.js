@@ -1,12 +1,16 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
 import FadeIn from "react-fade-in";
+
+import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import GrayText from "./StyleUtils";
 import {withStyles} from "@material-ui/core/styles";
+
+import {navigate, Router} from "@reach/router";
+
+import GrayText from "./StyleUtils";
 
 const useStyles = () => ({
     card: {
@@ -29,8 +33,10 @@ const useStyles = () => ({
     }
 });
 
-class AssetGridCard extends React.Component {
-    render() {
+class AssetGridCard extends React.Component
+{
+    render()
+    {
         const classes = this.props.classes;
         let {asset} = this.props;
 
@@ -60,12 +66,12 @@ class AssetGridCard extends React.Component {
         );
     }
 
-    openCardDetails(id) {
-        //without refreshing
-        // navigate(`/asset/${id}`).then(value => {
-        //     console.log("visited")
-        // })
-        window.open(`/asset/${id}`);
+    openCardDetails(id)
+    {
+        // Without refreshing
+        navigate(`/asset/${id}`).then(value => {
+            console.log("visited")
+        })
     }
 }
 

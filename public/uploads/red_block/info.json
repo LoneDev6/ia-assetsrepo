@@ -1,0 +1,10 @@
+{
+  "id": "red_block",
+  "name": "Red Block",
+  "category": "Block",
+  "description": "An example block with some effects",
+  "author": "LoneDev#7444",
+  "publish_date": "2021-09-15",
+  "mc_version": "Minecraft 1.13+",
+  "has_custom_texture": "yes"
+}

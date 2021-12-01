@@ -1,14 +1,15 @@
+import React from "react";
+
 import './App.css';
 import '@fontsource/roboto';
 import AssetsGrid from "./AssetsGrid";
+
 import {alpha, createTheme, ThemeProvider, withStyles} from '@material-ui/core/styles';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase";
-import React from "react";
+
 import {navigate, Router} from "@reach/router";
 import AssetDetails from "./AssetDetails";
 
@@ -77,10 +78,8 @@ const useStyles = (theme) => ({
     }
 });
 
-
-
-function App(props) {
-
+function App(props)
+{
     const theme = createTheme({
         palette: {
             type: 'dark',
@@ -109,10 +108,16 @@ function App(props) {
             <CssBaseline/>
             <AppBar position="relative">
                 <Toolbar>
-                    <img src="/img/icon.png" alt="logo" className={classes.icon} onClick={() => { returnToHome() }}/>
-                    <Typography variant="h6" color="inherit" noWrap className={classes.appbarTitle} onClick={() => { returnToHome() }}>
+                    <img src="/img/icon.png" alt="logo" className={classes.icon} onClick={() => {
+                        returnToHome()
+                    }}/>
+                    <Typography variant="h6" color="inherit" noWrap className={classes.appbarTitle} onClick={() => {
+                        returnToHome()
+                    }}>
                         Assets Repository
-                        <Typography color="inherit" noWrap onClick={() => { returnToHome() }}>
+                        <Typography color="inherit" noWrap onClick={() => {
+                            returnToHome()
+                        }}>
                             (alpha)
                         </Typography>
                     </Typography>

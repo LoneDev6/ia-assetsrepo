@@ -1,13 +1,10 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import InfiniteScroll from "react-infinite-scroll-component";
 import AssetsGridCard from "./AssetGridCard";
-import {LinearProgress} from "@mui/material";
-import getRandomInt from "./MathUtils";
-
 
 //avoid restoring scroll position on refresh
 global.history.scrollRestoration = "manual"
@@ -23,33 +20,63 @@ const useStyles = (theme) => ({
     }
 });
 
-class AssetsGrid extends React.Component {
+class AssetsGrid extends React.Component
+{
     page = 0;
     state = {
         items: []
     };
 
-    fetchMoreData = () => {
+    componentDidMount()
+    {
+        this.fetchMoreData(false); //TODO: errors catching and stuff
+    }
 
-        fetch(`${process.env.REACT_APP_BACKEND}/api/assets/${this.page}`)
+    fetchMoreData = (incrementPage = true) => {
+
+        fetch(`/uploads/assets.json`)
             .then((response) => response.json())
-            .then((responseJson) => {
+            .then(async (json) => {
+                let assetsNames = json.list;
+                assetsNames = assetsNames.slice(this.page * 21, (this.page + 1) * 21);
+
+                let assetsArray = [];
+
+                console.log("Loading assets...")
+
+                await this.asyncForEach(assetsNames, async (assetName) => {
+                    try
+                    {
+                        await fetch(`/uploads/${assetName}/info.json`)
+                            .then((response) => response.json())
+                            .then((assetData) => {
+                                assetData.img = `/uploads/${assetData.id}/preview/img.png`;
+                                assetsArray.push(assetData)
+
+                                console.log(assetData)
+                                console.log("fetch")
+                            })
+                    } catch (err) //not only 404... TODO: handle other type of errors
+                    {
+                        console.error(`Error loading resource info.json for: ${assetName}`);
+                    }
+                })
+
                 this.setState({
-                    items: this.state.items.concat(responseJson)
+                    items: this.state.items.concat(assetsArray)
                 });
+
+                if (incrementPage)
+                    this.page++;
+
             })
             .catch((error) => {
                 console.error(error);
             });
-        this.page++;
     };
 
-
-    render() {
+    render = () => {
         const classes = this.props.classes;
-
-        if(this.page === 0)
-            this.fetchMoreData(); //TODO: errors catching and stuff
 
         return (
             <React.Fragment>
@@ -75,6 +102,14 @@ class AssetsGrid extends React.Component {
                 </main>
             </React.Fragment>
         );
+    }
+
+    async asyncForEach(array, callback)
+    {
+        for (let index = 0; index < array.length; index++)
+        {
+            await callback(array[index], index, array);
+        }
     }
 }
 
